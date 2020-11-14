@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(of = {"fname","lname","patronymic","birthday"})
-public class Person {
+public class PersonDto {
 
     private int id;
     private String fname;

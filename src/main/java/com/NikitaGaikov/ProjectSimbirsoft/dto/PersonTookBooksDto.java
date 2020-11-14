@@ -7,15 +7,14 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
-import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.util.*;
 
 @JsonAutoDetect
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property="type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value=Person.class, name="person"),
-        @JsonSubTypes.Type(value=Book.class, name="book")
+        @JsonSubTypes.Type(value= PersonDto.class, name="person"),
+        @JsonSubTypes.Type(value= BookDto.class, name="book")
 })
 @Getter
 @Setter
@@ -23,12 +22,12 @@ import java.util.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class PersonWithBooks {
+public class PersonTookBooksDto {
 
     private int id;
-    private Person person;
+    private PersonDto person;
     @JsonDeserialize(contentAs=Arrays.class)
-    private List<Book> books = new ArrayList<>();
+    private List<BookDto> books = new ArrayList<>();
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private ZonedDateTime date;
 

@@ -1,6 +1,6 @@
 package com.NikitaGaikov.ProjectSimbirsoft.service;
 
-import com.NikitaGaikov.ProjectSimbirsoft.dto.Book;
+import com.NikitaGaikov.ProjectSimbirsoft.dto.BookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,9 @@ import java.util.Map;
 public class BookService {
 
     private int counter = 4;
-    private Book bookOne = new Book(1,"Мастер и Маргарита","M.Булгаков","классика");
-    private Book bookTwo = new Book(2,"Преступление и наказание","Ф.Достоевский","классика");
-    private Book bookThird = new Book(3,"отцы и дети","Е.Тургеев","классика");
+    private BookDto bookOne = new BookDto(1,"Мастер и Маргарита","M.Булгаков","классика");
+    private BookDto bookTwo = new BookDto(2,"Преступление и наказание","Ф.Достоевский","классика");
+    private BookDto bookThird = new BookDto(3,"отцы и дети","Е.Тургеев","классика");
 
     private List<Map<String,String>> bookList = new ArrayList<Map<String, String>>(){{
         add(new HashMap<String,String>(){{
