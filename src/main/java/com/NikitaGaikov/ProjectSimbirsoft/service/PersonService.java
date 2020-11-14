@@ -1,18 +1,18 @@
-package com.NikitaGaikov.ProjectSimbirsoft.restController;
+package com.NikitaGaikov.ProjectSimbirsoft.service;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dto.Person;
-import com.NikitaGaikov.ProjectSimbirsoft.exceptions.NotFoundException;
+import com.NikitaGaikov.ProjectSimbirsoft.exception.NotFoundException;
+import com.sun.org.apache.xerces.internal.impl.validation.EntityState;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-@RestController
-@RequestMapping("/persons")
-public class PersonRestController {
+@Service
+public class PersonService {
 
     private int counter = 4;
 
@@ -47,51 +47,41 @@ public class PersonRestController {
         }});
     }};
 
-    @GetMapping("/list")
-    public List<Map<String,String>> jsonStart(){
+    public List<Map<String,String>> listPerson(){
         return personList;
     }
 
-    @GetMapping("{id}")
-    public Map<String,String> getOne(@PathVariable String id){
-        return getPerson(id);
-    }
-
-    @GetMapping
-    public Map<String,String> getPersonByName(@RequestParam(value = "fname") String fname){
-        return personList.stream()
-                .filter(person -> person.get("fname").equals(fname))
-                .findFirst()
-                .orElseThrow(NotFoundException::new);
-    }
-
-    private Map<String,String> getPerson(@PathVariable String id){
+    public Map<String,String> getPersonById(String id){
         return personList.stream()
                 .filter(person -> person.get("id").equals(id))
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
     }
 
-    @PostMapping
-    public Map<String,String> create(@RequestBody Map<String,String> person){
+    public Map<String,String> getPersonByFName(String fname){
+        return personList.stream()
+                .filter(person -> person.get("fname").equals(fname))
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
+    }
+
+    public Map<String,String> save(Map<String,String> person){
         person.put("id",String.valueOf(counter++));
 
         personList.add(person);
         return person;
     }
 
-    @PutMapping("{id}")
-    public Map<String,String> update(@PathVariable String id , @RequestBody Map<String,String> person){
-        Map<String,String> personFromDb = getPerson(id);
+    public Map<String,String> updatePerson(String id, Map<String,String> person){
+        Map<String,String> personFromDb = getPersonById(id);
 
         personFromDb.putAll(person);
         personFromDb.put("id",id);
         return personFromDb;
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable String id){
-        Map<String,String> person = getPerson(id);
+    public ResponseEntity<String> deletePersonById(String id){
+        Map<String,String> person = getPersonById(id);
         personList.remove(person);
         return (ResponseEntity<String>) ResponseEntity.status(HttpStatus.OK).body("Ok");
     }

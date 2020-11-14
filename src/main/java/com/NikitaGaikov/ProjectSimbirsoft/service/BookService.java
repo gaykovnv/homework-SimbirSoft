@@ -1,19 +1,18 @@
-package com.NikitaGaikov.ProjectSimbirsoft.restController;
+package com.NikitaGaikov.ProjectSimbirsoft.service;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dto.Book;
-import com.NikitaGaikov.ProjectSimbirsoft.exceptions.NotFoundException;
+import com.NikitaGaikov.ProjectSimbirsoft.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
-@RequestMapping("/books")
-public class BookRestController {
+@Service
+public class BookService {
 
     private int counter = 4;
     private Book bookOne = new Book(1,"Мастер и Маргарита","M.Булгаков","классика");
@@ -41,41 +40,32 @@ public class BookRestController {
         }});
     }};
 
-    @GetMapping("list")
-    public List<Map<String,String>> listBook(){
+    public List<Map<String,String>> bookList(){
         return bookList;
     }
 
-    @GetMapping("{id}")
-    public Map<String,String> getOne(@PathVariable String id){
-        return getBookById(id);
-    }
-
-    private Map<String,String> getBookById(@PathVariable String id){
+    public Map<String,String> getBookById(String id){
         return bookList.stream()
                 .filter(book -> book.get("id").equals(id))
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
     }
 
-    @GetMapping
-    public Map<String,String> getBookByAuthor(@RequestParam(value = "author") String author){
+    public Map<String,String> getBookByAuthor(String author){
         return bookList.stream()
                 .filter(book -> book.get("author").equals(author))
                 .findFirst()
                 .orElseThrow(NotFoundException::new);
     }
 
-    @PostMapping
-    public Map<String,String> createBook(@RequestBody Map<String,String> newBook){
+    public Map<String,String> save(Map<String,String> newBook){
         newBook.put("id",String.valueOf(counter++));
 
         bookList.add(newBook);
         return newBook;
     }
 
-    @PutMapping("{id}")
-    public Map<String,String> update(@PathVariable String id, @RequestBody Map<String,String> newBook){
+    public Map<String,String> updateBook(String id, Map<String,String> newBook){
         Map<String,String> bookFromDb = getBookById(id);
 
         bookFromDb.putAll(newBook);
@@ -83,8 +73,7 @@ public class BookRestController {
         return bookFromDb;
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable String id){
+    public ResponseEntity<String> deleteBookById(String id){
         Map<String,String> book = getBookById(id);
         bookList.remove(book);
         return (ResponseEntity<String>) ResponseEntity.status(HttpStatus.OK).body("Ok");

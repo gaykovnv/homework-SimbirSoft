@@ -1,4 +1,4 @@
-var personApi = Vue.resource("/persons{/id}")
+var personApi = Vue.resource("/persons{/id}/list")
 
 function getIndex(list , id){
     for (var i = 0; i<list.length;i++){

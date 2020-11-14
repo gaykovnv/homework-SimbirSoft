@@ -1,4 +1,4 @@
-package com.NikitaGaikov.ProjectSimbirsoft.exceptions;
+package com.NikitaGaikov.ProjectSimbirsoft.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
