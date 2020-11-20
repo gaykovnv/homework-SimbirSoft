@@ -1,5 +1,6 @@
 package com.NikitaGaikov.ProjectSimbirsoft.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -10,9 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 public class BookDto {
 
+    @JsonProperty("book_id")
     private int id;
     private String name;
-    private String author;
-    private String genre;
 
+    private AuthorDto authorDto;
+    private GenreDto genreDto;
 }

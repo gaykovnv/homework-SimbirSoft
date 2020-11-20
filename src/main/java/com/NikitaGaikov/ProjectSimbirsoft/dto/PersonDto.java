@@ -1,6 +1,7 @@
 package com.NikitaGaikov.ProjectSimbirsoft.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -9,15 +10,15 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = {"fname","lname","patronymic","birthday"})
+@ToString
 public class PersonDto {
-
-    private int id;
+    @JsonProperty("person_id")
+    private Integer id;
     private String fname;
     private String lname;
     private String patronymic;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthday;
 
 }

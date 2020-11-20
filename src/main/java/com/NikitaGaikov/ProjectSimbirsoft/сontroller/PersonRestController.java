@@ -1,6 +1,11 @@
 package com.NikitaGaikov.ProjectSimbirsoft.сontroller;
 
-import com.NikitaGaikov.ProjectSimbirsoft.service.PersonService;
+import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Person;
+import com.NikitaGaikov.ProjectSimbirsoft.dto.AddBookDto;
+import com.NikitaGaikov.ProjectSimbirsoft.dto.BookDto;
+import com.NikitaGaikov.ProjectSimbirsoft.dto.PersonDto;
+import com.NikitaGaikov.ProjectSimbirsoft.dto.PersonWithBookDto;
+import com.NikitaGaikov.ProjectSimbirsoft.service.implemention.PersonServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,35 +17,43 @@ import java.util.*;
 public class PersonRestController {
 
     @Autowired
-    private PersonService service;
+    private PersonServiceImpl service;
 
-    @GetMapping("/list")
-    public List<Map<String,String>> jsonStart(){
-        return service.listPerson();
+    @PostMapping("/backBook")
+    public ResponseEntity<String> backBook(@RequestBody AddBookDto addBookDto){
+        service.backBook(addBookDto);
+        return ResponseEntity.ok("OK");
     }
 
-    @GetMapping("{id}")
-    public Map<String,String> getOne(@PathVariable String id){
-        return service.getPersonById(id);
+    @DeleteMapping("/deleteByFIO")
+    public ResponseEntity<String> deleteByFIO(@RequestBody PersonDto personDto){
+        return service.deleteByFIO(personDto);
     }
 
-    @GetMapping
-    public Map<String,String> getPersonByName(@RequestParam(value = "fname") String fname){
-        return service.getPersonByFName(fname);
+    @PostMapping("/add")
+    public Person add(@RequestBody Person person){
+        return service.add(person);
+    }
+
+    @GetMapping("/tookBooksPerson/{id}")
+    public List<BookDto> listBook(@PathVariable String id){
+        return service.listTookBooksThePersonById(id);
     }
 
     @PostMapping
-    public Map<String,String> create(@RequestBody Map<String,String> person){
-        return service.save(person);
+    public ResponseEntity<String> addBookInListTookBook(@RequestBody AddBookDto addBookDto){
+        return service.addBookTookThePerson(addBookDto);
     }
 
     @PutMapping("{id}")
-    public Map<String,String> update(@PathVariable String id , @RequestBody Map<String,String> person){
-        return service.updatePerson(id,person);
+    public PersonDto update(@PathVariable String id , @RequestBody PersonDto person){
+        person.setId(Integer.parseInt(id));
+        return service.update(person);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> delete(@PathVariable String id){
-        return service.deletePersonById(id);
+        service.deleteById(id);
+        return ResponseEntity.ok("Ok");
     }
 }
