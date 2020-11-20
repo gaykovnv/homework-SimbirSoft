@@ -19,7 +19,7 @@ public class BookRestController {
     private BookServiceImpl service;
 
     @PostMapping
-    public AddBookDto createBook(@RequestBody AddBookDto addBookDto){
+    public Book createBook(@RequestBody AddBookDto addBookDto){
         return service.add(addBookDto);
     }
 

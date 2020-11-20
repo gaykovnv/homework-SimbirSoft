@@ -2,11 +2,11 @@ package com.NikitaGaikov.ProjectSimbirsoft.service.implemention;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Author;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Book;
+import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.BookWithTimeZoned;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Genre;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.AuthorRepository;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.BookRepository;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.GenreRepository;
-import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.PersonRepository;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.AddBookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.service.connectToDB.DBWork;
 import com.NikitaGaikov.ProjectSimbirsoft.service.interfac.BookService;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
@@ -32,9 +33,10 @@ public class BookServiceImpl implements BookService {
     private GenreRepository genreRepo;
 
     @Override
-    public AddBookDto add(AddBookDto addBookDto) {
-        Book book = new Book();
+    public Book add(AddBookDto addBookDto) {
+        BookWithTimeZoned book = new BookWithTimeZoned();
         book.setName(addBookDto.getName());
+        book.setDate(ZonedDateTime.now());
         Author author = new Author();
         author.setFname(addBookDto.getAuthor_fname());
         author.setLname(addBookDto.getAuthor_lname());
@@ -42,7 +44,7 @@ public class BookServiceImpl implements BookService {
         book.setAuthor(author);
         authorRepo.save(author);
         bookRepo.save(book);
-        return addBookDto;
+        return book;
     }
 
     @Override

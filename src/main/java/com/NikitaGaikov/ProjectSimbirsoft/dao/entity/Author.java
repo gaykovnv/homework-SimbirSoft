@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-
+@Inheritance
 @EntityScan(basePackages = {"com.NikitaGaikov.ProjectSimbirsoft.dao.entity"})
 @Table(name = "author")
 public class Author implements Serializable {

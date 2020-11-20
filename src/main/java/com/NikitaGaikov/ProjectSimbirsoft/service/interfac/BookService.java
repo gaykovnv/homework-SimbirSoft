@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BookService {
 
-    AddBookDto add(AddBookDto addBookDto);
+    Book add(AddBookDto addBookDto);
 
     ResponseEntity<String> deleteById(String id);
 

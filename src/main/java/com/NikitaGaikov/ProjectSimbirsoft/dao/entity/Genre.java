@@ -18,6 +18,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
+@Inheritance
 @EntityScan(basePackages = {"com.NikitaGaikov.ProjectSimbirsoft.dao.entity"})
 @Table(name = "genre")
 public class Genre implements Serializable {

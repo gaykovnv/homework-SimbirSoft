@@ -1,6 +1,7 @@
 package com.NikitaGaikov.ProjectSimbirsoft.service.implemention;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Author;
+import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.AuthorWithTimeZoned;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Book;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Genre;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.AuthorRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
@@ -80,10 +82,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author add(AddBookDto addBookDto) {
-        Author author = new Author();
+        AuthorWithTimeZoned author = new AuthorWithTimeZoned();
         author.setFname(addBookDto.getAuthor_fname());
         author.setLname(addBookDto.getAuthor_lname());
         author.setPatronymic(addBookDto.getAuthor_middlename());
+        author.setDate(ZonedDateTime.now());
         authorRepo.save(author);
         return author;
     }

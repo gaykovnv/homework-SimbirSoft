@@ -1,6 +1,7 @@
 package com.NikitaGaikov.ProjectSimbirsoft.сontroller;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Person;
+import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.PersonWithTimeZoned;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.AddBookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.BookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.PersonDto;
@@ -31,7 +32,7 @@ public class PersonRestController {
     }
 
     @PostMapping("/add")
-    public Person add(@RequestBody Person person){
+    public PersonWithTimeZoned add(@RequestBody PersonWithTimeZoned person){
         return service.add(person);
     }
 

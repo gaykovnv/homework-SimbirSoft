@@ -1,9 +1,8 @@
 package com.NikitaGaikov.ProjectSimbirsoft.service.implemention;
 
-import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Book;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Genre;
+import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.GenreWithTimeZoned;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.GenreRepository;
-import com.NikitaGaikov.ProjectSimbirsoft.dto.BookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.GenreDto;
 import com.NikitaGaikov.ProjectSimbirsoft.service.connectToDB.DBWork;
 import com.NikitaGaikov.ProjectSimbirsoft.service.interfac.GenreService;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
@@ -43,8 +43,9 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre add(GenreDto genreDto) {
-        Genre genre = new Genre();
+        GenreWithTimeZoned genre = new GenreWithTimeZoned();
         genre.setGenre(genreDto.getGenre());
+        genre.setDate(ZonedDateTime.now());
         return genreRepo.save(genre);
     }
 

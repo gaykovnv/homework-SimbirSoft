@@ -2,6 +2,7 @@ package com.NikitaGaikov.ProjectSimbirsoft.service.implemention;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Book;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Person;
+import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.PersonWithTimeZoned;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.BookRepository;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.PersonRepository;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.*;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
@@ -25,7 +27,7 @@ public class PersonServiceImpl implements PersonService {
     private BookRepository bookRepo;
 
     @Override
-    public Person add(@NonNull Person person) {
+    public PersonWithTimeZoned add(@NonNull PersonWithTimeZoned person) {
         personRepo.save(person);
         return person;
     }
