@@ -20,13 +20,18 @@ public class PersonRestController {
 
     @PostMapping("/backBook")
     public ResponseEntity<String> backBook(@RequestBody AddBookDto addBookDto){
-        service.backBook(addBookDto);
+        if(!service.backBook(addBookDto)){
+            return ResponseEntity.ok("mistake");
+        }
         return ResponseEntity.ok("OK");
     }
 
     @DeleteMapping("/deleteByFIO")
     public ResponseEntity<String> deleteByFIO(@RequestBody PersonDto personDto){
-        return service.deleteByFIO(personDto);
+        if (!service.deleteByFIO(personDto)){
+            return ResponseEntity.ok("mistake");
+        }
+        return ResponseEntity.ok("OK");
     }
 
     @PostMapping("/add")
@@ -41,7 +46,10 @@ public class PersonRestController {
 
     @PostMapping
     public ResponseEntity<String> addBookInListTookBook(@RequestBody AddBookDto addBookDto){
-        return service.addBookTookThePerson(addBookDto);
+        if (!service.addBookTookThePerson(addBookDto)){
+            return ResponseEntity.ok("mistake. Book don't found");
+        }
+        return ResponseEntity.ok("OK");
     }
 
     @PutMapping("{id}")
@@ -52,7 +60,9 @@ public class PersonRestController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> delete(@PathVariable String id){
-        service.deleteById(id);
+        if(!service.deleteById(id)){
+            return ResponseEntity.ok("mistake");
+        }
         return ResponseEntity.ok("Ok");
     }
 }

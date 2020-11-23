@@ -47,13 +47,13 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public ResponseEntity<String> deleteById(String id) {
+    public boolean deleteById(String id) {
         personRepo.deleteById(Long.valueOf(id));
-        return ResponseEntity.ok("Ok");
+        return true;
     }
 
     @Override
-    public ResponseEntity<String> deleteByFIO(PersonDto personDto) {
+    public boolean deleteByFIO(PersonDto personDto) {
         DBWork dbWork = new DBWork();
         String query = " delete from person p where p.first_name like concat('%', ?,'%')" +
                 "or p.last_name like concat('%',?,'%')" +
@@ -64,10 +64,10 @@ public class PersonServiceImpl implements PersonService {
             preparedStatement.setString(2,personDto.getLname());
             preparedStatement.setString(3,personDto.getPatronymic());
             preparedStatement.executeUpdate();
-            return ResponseEntity.ok("Ok");
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return ResponseEntity.ok("Ошибка");
+            return false;
         }
     }
 
@@ -108,7 +108,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public ResponseEntity<String> addBookTookThePerson(AddBookDto addBookDto) {
+    public boolean addBookTookThePerson(AddBookDto addBookDto) {
         DBWork dbWork = new DBWork();
 
         Optional<Person> person = personRepo.findById(Long.parseLong(addBookDto.getPersonId()));
@@ -121,19 +121,19 @@ public class PersonServiceImpl implements PersonService {
                 preparedStatement.setString(1, addBookDto.getBookId());
                 preparedStatement.setString(2, addBookDto.getPersonId());
                 preparedStatement.executeUpdate();
-                return ResponseEntity.ok("OK");
+                return true;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-                return ResponseEntity.ok("Ошибка");
+                return false;
             }
         }else{
-            return ResponseEntity.ok("Не найдена книга или человек");
+            return false;
         }
     }
 
 
     @Override
-    public ResponseEntity<String> backBook(AddBookDto addBookDto) {
+    public boolean backBook(AddBookDto addBookDto) {
         DBWork dbWork = new DBWork();
         String query = "delete from library_card where person_id = ? and book_id = ?;";
         try {
@@ -141,10 +141,10 @@ public class PersonServiceImpl implements PersonService {
             preparedStatement.setString(1,addBookDto.getPersonId());
             preparedStatement.setString(2,addBookDto.getBookId());
             preparedStatement.executeUpdate();
-            return ResponseEntity.ok("ok");
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return ResponseEntity.ok("mistake");
+            return false;
         }
 
     }
