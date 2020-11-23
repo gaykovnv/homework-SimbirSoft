@@ -1,5 +1,6 @@
 package com.NikitaGaikov.ProjectSimbirsoft.сontroller;
 
+import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Author;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Book;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.AddBookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.BookDto;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -25,7 +27,10 @@ public class BookRestController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteById(@PathVariable String id){
-        return service.deleteById(id);
+        if(!service.deleteById(id)){
+            return ResponseEntity.ok("mistake");
+        }
+        return ResponseEntity.ok("ok");
     }
 
     @PutMapping("{id}")
@@ -33,18 +38,14 @@ public class BookRestController {
         return service.update(id,addBookDto);
     }
 
-    @PostMapping("/listBookByGenre")
+    @GetMapping("/listBookByGenre")
     public List<Book> listBookByGenre(@RequestBody AddBookDto genreName){
         return service.getListBookByGenre(genreName);
     }
 
-    @PostMapping("/listBookByAuthor")
-    public List<String> listBookByAuthor(@RequestBody AddBookDto addBookDto){
-        return service.getListBookByAuthor(addBookDto);
+    @PostMapping("{id}")
+    public Optional<Author> listBookByAuthor(@PathVariable String id){
+        return service.getListBookByAuthor(id);
     }
-/*
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable String id){
-        return service.deleteBookById(id);
-    }*/
+
 }

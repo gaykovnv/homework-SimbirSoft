@@ -1,5 +1,6 @@
 package com.NikitaGaikov.ProjectSimbirsoft.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,11 +18,11 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"genre"})
 @Inheritance
 @EntityScan(basePackages = {"com.NikitaGaikov.ProjectSimbirsoft.dao.entity"})
 @Table(name = "genre")
-public class Genre implements Serializable {
+public class Genre extends TimeZoned implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,7 @@ public class Genre implements Serializable {
     @Column(name = "genre", nullable = false)
     private String genre;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "book_genre",
         joinColumns = @JoinColumn(name = "genre_id"),

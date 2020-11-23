@@ -15,12 +15,12 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"fname","lname","patronymic","date"})
 @NoArgsConstructor
 @Inheritance
 @EntityScan(basePackages = {"com.NikitaGaikov.ProjectSimbirsoft.dao.entity"})
 @Table(name = "person")
-public class Person implements Serializable {
+public class Person extends TimeZoned implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -25,7 +25,7 @@ public class GenreRestController {
         return service.add(genreDto);
     }
 
-    @PostMapping("/listGenreAndBook")
+    @GetMapping("/listGenreAndBook")
     public GenreDto listGenreAndBook(@RequestBody GenreDto genreDto){
         return service.findAllBookByGenre(genreDto);
     }

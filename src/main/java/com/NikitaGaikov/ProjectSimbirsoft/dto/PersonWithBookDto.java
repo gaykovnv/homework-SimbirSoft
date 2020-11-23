@@ -21,6 +21,6 @@ import java.util.*;
 @EqualsAndHashCode
 public class PersonWithBookDto {
 
-    private Long person_id;
-    private Long book_id;
+    private Long personId;
+    private Long bookId;
 }

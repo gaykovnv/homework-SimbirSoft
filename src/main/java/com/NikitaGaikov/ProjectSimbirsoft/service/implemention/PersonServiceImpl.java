@@ -2,7 +2,6 @@ package com.NikitaGaikov.ProjectSimbirsoft.service.implemention;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Book;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Person;
-import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.PersonWithTimeZoned;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.BookRepository;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.PersonRepository;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.*;
@@ -14,20 +13,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
-import java.time.ZonedDateTime;
 import java.util.*;
 
 @Service
 public class PersonServiceImpl implements PersonService {
 
     @Autowired
-    private PersonRepository personRepo;
+    private final PersonRepository personRepo;
 
     @Autowired
-    private BookRepository bookRepo;
+    private final BookRepository bookRepo;
+
+    public PersonServiceImpl(PersonRepository personRepo, BookRepository bookRepo) {
+        this.personRepo = personRepo;
+        this.bookRepo = bookRepo;
+    }
 
     @Override
-    public PersonWithTimeZoned add(@NonNull PersonWithTimeZoned person) {
+    public Person add(@NonNull Person person) {
         personRepo.save(person);
         return person;
     }
@@ -108,15 +111,15 @@ public class PersonServiceImpl implements PersonService {
     public ResponseEntity<String> addBookTookThePerson(AddBookDto addBookDto) {
         DBWork dbWork = new DBWork();
 
-        Optional<Person> person = personRepo.findById(Long.parseLong(addBookDto.getPerson_id()));
-        Optional<Book> book = bookRepo.findById(Long.valueOf(addBookDto.getBook_id()));
+        Optional<Person> person = personRepo.findById(Long.parseLong(addBookDto.getPersonId()));
+        Optional<Book> book = bookRepo.findById(Long.valueOf(addBookDto.getBookId()));
 
         if(person.isPresent() && book.isPresent()) {
             String query = "insert into library_card values(?,?)";
             try {
                 PreparedStatement preparedStatement = dbWork.getConn().prepareStatement(query);
-                preparedStatement.setString(1, addBookDto.getBook_id());
-                preparedStatement.setString(2, addBookDto.getPerson_id());
+                preparedStatement.setString(1, addBookDto.getBookId());
+                preparedStatement.setString(2, addBookDto.getPersonId());
                 preparedStatement.executeUpdate();
                 return ResponseEntity.ok("OK");
             } catch (SQLException throwables) {
@@ -135,8 +138,8 @@ public class PersonServiceImpl implements PersonService {
         String query = "delete from library_card where person_id = ? and book_id = ?;";
         try {
             PreparedStatement preparedStatement = dbWork.getConn().prepareStatement(query);
-            preparedStatement.setString(1,addBookDto.getPerson_id());
-            preparedStatement.setString(2,addBookDto.getBook_id());
+            preparedStatement.setString(1,addBookDto.getPersonId());
+            preparedStatement.setString(2,addBookDto.getBookId());
             preparedStatement.executeUpdate();
             return ResponseEntity.ok("ok");
         } catch (SQLException throwables) {

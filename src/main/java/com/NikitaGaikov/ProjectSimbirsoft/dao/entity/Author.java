@@ -1,5 +1,6 @@
 package com.NikitaGaikov.ProjectSimbirsoft.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,9 +19,10 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Inheritance
+@EqualsAndHashCode(of = {"fname","lname","patronymic"})
 @EntityScan(basePackages = {"com.NikitaGaikov.ProjectSimbirsoft.dao.entity"})
 @Table(name = "author")
-public class Author implements Serializable {
+public class Author extends TimeZoned implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +37,7 @@ public class Author implements Serializable {
     @Column(name = "middle_name")
     private String patronymic;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "author" ,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     private Set<Book> books = new HashSet<>();

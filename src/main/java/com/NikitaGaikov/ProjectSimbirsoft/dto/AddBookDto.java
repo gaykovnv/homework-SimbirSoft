@@ -11,10 +11,10 @@ import lombok.*;
 public class AddBookDto {
 
     private String name;
-    private String author_fname;
-    private String author_lname;
-    private String author_middlename;
-    private String genre_name;
-    private String book_id;
-    private String person_id;
+    private String authorFname;
+    private String authorLname;
+    private String authorMiddlename;
+    private String genreName;
+    private String bookId;
+    private String personId;
 }

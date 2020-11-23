@@ -1,18 +1,16 @@
 package com.NikitaGaikov.ProjectSimbirsoft.service.interfac;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Person;
-import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.PersonWithTimeZoned;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.AddBookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.BookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.PersonDto;
-import com.NikitaGaikov.ProjectSimbirsoft.dto.PersonWithBookDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface PersonService {
 
-    PersonWithTimeZoned add(PersonWithTimeZoned person);
+    Person add(Person person);
 
     PersonDto update(PersonDto personDto);
 

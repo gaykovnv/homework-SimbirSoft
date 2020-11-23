@@ -33,6 +33,9 @@ public class AuthorRestController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteById(@PathVariable String id){
-        return service.delete(id);
+        if (!service.delete(id)){
+            return ResponseEntity.ok("mistake");
+        }
+        return ResponseEntity.ok("ok");
     }
 }

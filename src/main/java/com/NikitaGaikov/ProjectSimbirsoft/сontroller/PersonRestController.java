@@ -1,11 +1,9 @@
 package com.NikitaGaikov.ProjectSimbirsoft.сontroller;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Person;
-import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.PersonWithTimeZoned;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.AddBookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.BookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.PersonDto;
-import com.NikitaGaikov.ProjectSimbirsoft.dto.PersonWithBookDto;
 import com.NikitaGaikov.ProjectSimbirsoft.service.implemention.PersonServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +30,7 @@ public class PersonRestController {
     }
 
     @PostMapping("/add")
-    public PersonWithTimeZoned add(@RequestBody PersonWithTimeZoned person){
+    public Person add(@RequestBody Person person){
         return service.add(person);
     }
 

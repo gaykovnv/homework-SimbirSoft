@@ -18,9 +18,10 @@ import java.util.Set;
 @Component
 @NoArgsConstructor
 @Inheritance
+@EqualsAndHashCode(of = {"name"})
 @EntityScan(basePackages = {"com.NikitaGaikov.ProjectSimbirsoft.dao.entity"})
 @Table(name = "book")
-public class Book implements Serializable {
+public class Book extends TimeZoned implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

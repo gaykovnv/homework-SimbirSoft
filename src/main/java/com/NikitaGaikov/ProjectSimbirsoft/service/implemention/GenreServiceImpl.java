@@ -1,7 +1,6 @@
 package com.NikitaGaikov.ProjectSimbirsoft.service.implemention;
 
 import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Genre;
-import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.GenreWithTimeZoned;
 import com.NikitaGaikov.ProjectSimbirsoft.dao.repository.GenreRepository;
 import com.NikitaGaikov.ProjectSimbirsoft.dto.GenreDto;
 import com.NikitaGaikov.ProjectSimbirsoft.service.connectToDB.DBWork;
@@ -19,33 +18,23 @@ import java.util.*;
 public class GenreServiceImpl implements GenreService {
 
     @Autowired
-    private GenreRepository genreRepo;
+    private final GenreRepository genreRepo;
+
+    public GenreServiceImpl(GenreRepository genreRepo) {
+        this.genreRepo = genreRepo;
+    }
+
 
     @Override
     public List<Genre> findAll() {
-        DBWork dbWork = new DBWork();
-        List<Genre> genreList = new ArrayList<>();
-        String query = "select * from genre;";
-        try {
-            PreparedStatement preparedStatement = dbWork.getConn().prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                Genre genre = new Genre();
-                genre.setGenre(resultSet.getString("genre"));
-                genre.setId(resultSet.getLong("id"));
-                genreList.add(genre);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return genreList;
+        return (List<Genre>) genreRepo.findAll();
     }
 
     @Override
     public Genre add(GenreDto genreDto) {
-        GenreWithTimeZoned genre = new GenreWithTimeZoned();
+        Genre genre = new Genre();
         genre.setGenre(genreDto.getGenre());
-        genre.setDate(ZonedDateTime.now());
+        genre.setDateTime(ZonedDateTime.now());
         return genreRepo.save(genre);
     }
 
