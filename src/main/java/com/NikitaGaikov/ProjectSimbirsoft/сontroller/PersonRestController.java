@@ -1,15 +1,14 @@
 package com.NikitaGaikov.ProjectSimbirsoft.сontroller;
 
-import com.NikitaGaikov.ProjectSimbirsoft.dto.Person;
-import com.NikitaGaikov.ProjectSimbirsoft.exception.NotFoundException;
-import com.NikitaGaikov.ProjectSimbirsoft.service.PersonService;
+import com.NikitaGaikov.ProjectSimbirsoft.dao.entity.Person;
+import com.NikitaGaikov.ProjectSimbirsoft.dto.AddBookDto;
+import com.NikitaGaikov.ProjectSimbirsoft.dto.BookDto;
+import com.NikitaGaikov.ProjectSimbirsoft.dto.PersonDto;
+import com.NikitaGaikov.ProjectSimbirsoft.service.implemention.PersonServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -17,35 +16,53 @@ import java.util.*;
 public class PersonRestController {
 
     @Autowired
-    private PersonService service;
+    private PersonServiceImpl service;
 
-    @GetMapping("/list")
-    public List<Map<String,String>> jsonStart(){
-        return service.listPerson();
+    @PostMapping("/backBook")
+    public ResponseEntity<String> backBook(@RequestBody AddBookDto addBookDto){
+        if(!service.backBook(addBookDto)){
+            return ResponseEntity.ok("mistake");
+        }
+        return ResponseEntity.ok("OK");
     }
 
-    @GetMapping("{id}")
-    public Map<String,String> getOne(@PathVariable String id){
-        return service.getPersonById(id);
+    @DeleteMapping("/deleteByFIO")
+    public ResponseEntity<String> deleteByFIO(@RequestBody PersonDto personDto){
+        if (!service.deleteByFIO(personDto)){
+            return ResponseEntity.ok("mistake");
+        }
+        return ResponseEntity.ok("OK");
     }
 
-    @GetMapping
-    public Map<String,String> getPersonByName(@RequestParam(value = "fname") String fname){
-        return service.getPersonByFName(fname);
+    @PostMapping("/add")
+    public Person add(@RequestBody Person person){
+        return service.add(person);
+    }
+
+    @GetMapping("/tookBooksPerson/{id}")
+    public List<BookDto> listBook(@PathVariable String id){
+        return service.listTookBooksThePersonById(id);
     }
 
     @PostMapping
-    public Map<String,String> create(@RequestBody Map<String,String> person){
-        return service.save(person);
+    public ResponseEntity<String> addBookInListTookBook(@RequestBody AddBookDto addBookDto){
+        if (!service.addBookTookThePerson(addBookDto)){
+            return ResponseEntity.ok("mistake. Book don't found");
+        }
+        return ResponseEntity.ok("OK");
     }
 
     @PutMapping("{id}")
-    public Map<String,String> update(@PathVariable String id , @RequestBody Map<String,String> person){
-        return service.updatePerson(id,person);
+    public PersonDto update(@PathVariable String id , @RequestBody PersonDto person){
+        person.setId(Integer.parseInt(id));
+        return service.update(person);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> delete(@PathVariable String id){
-        return service.deletePersonById(id);
+        if(!service.deleteById(id)){
+            return ResponseEntity.ok("mistake");
+        }
+        return ResponseEntity.ok("Ok");
     }
 }
